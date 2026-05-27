@@ -25,6 +25,14 @@ def get_db_connection():
     # In a real app, use connection pooling
     return psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
 
+@app.route('/salons')
+def salons():
+    return render_template('salons.html')
+
+@app.route('/bookings')
+def bookings():
+    return render_template('bookings.html')
+
 @app.route('/')
 def index():
     # In a real scenario, we would fetch salons from DB

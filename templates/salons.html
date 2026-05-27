@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salons | StyleSync</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 900: '#111111' } } } } }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased font-sans flex flex-col min-h-screen">
+    <nav class="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 cursor-pointer">
+                <div class="w-6 h-6 rounded-full bg-brand-900"></div>
+                <span class="font-semibold text-lg tracking-tight text-brand-900">StyleSync</span>
+            </a>
+            <div class="hidden sm:flex items-center gap-6 text-sm font-medium text-gray-500">
+                <a href="/salons" class="text-brand-900 font-semibold transition-colors">Salons</a>
+                <a href="/bookings" class="hover:text-brand-900 transition-colors">My Bookings</a>
+            </div>
+            <a href="/" class="text-sm font-semibold bg-brand-900 text-white px-4 py-2 rounded-full hover:bg-black transition-all">Book Now</a>
+        </div>
+    </nav>
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 py-10">
+        <h1 class="text-3xl font-bold text-brand-900 mb-8">Discover Salons in Accra</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <a href="/" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+                <div class="w-full h-40 bg-gray-200 rounded-xl mb-4 group-hover:opacity-90 transition-opacity flex items-center justify-center text-gray-400">Image</div>
+                <h3 class="text-lg font-bold text-brand-900">Luxe Locks Studio</h3>
+                <p class="text-sm text-gray-500">East Legon</p>
+            </a>
+            <a href="/" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+                <div class="w-full h-40 bg-gray-200 rounded-xl mb-4 group-hover:opacity-90 transition-opacity flex items-center justify-center text-gray-400">Image</div>
+                <h3 class="text-lg font-bold text-brand-900">Glamour Styles</h3>
+                <p class="text-sm text-gray-500">Osu</p>
+            </a>
+            <a href="/" class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all group">
+                <div class="w-full h-40 bg-gray-200 rounded-xl mb-4 group-hover:opacity-90 transition-opacity flex items-center justify-center text-gray-400">Image</div>
+                <h3 class="text-lg font-bold text-brand-900">The Braiding Bar</h3>
+                <p class="text-sm text-gray-500">Cantonments</p>
+            </a>
+        </div>
+    </main>
+</body>
+</html>
