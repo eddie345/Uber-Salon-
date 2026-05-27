@@ -3,45 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookings | StyleSync</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { brand: { 900: '#111111' } } } } }
-    </script>
+    <title>My Bookings — StyleSync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a; --surface: #111111; --surface-2: #1a1a1a;
+            --border: #222222; --border-light: #2e2e2e;
+            --text: #f0f0f0; --text-muted: #666666; --text-dim: #444444;
+            --accent: #c8f135; --success: #22c55e; --warning: #f59e0b; --danger: #ff4444;
+            --font-mono: 'JetBrains Mono', monospace; --font-sans: 'Inter', sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font-sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        nav { height: 52px; background: rgba(10,10,10,0.95); border-bottom: 1px solid var(--border); display: flex; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .nav-inner { max-width: 1040px; margin: 0 auto; width: 100%; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 15px; }
+        .nav-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.15s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .btn-book { background: var(--accent); color: #000; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; }
+
+        main { max-width: 1040px; margin: 0 auto; padding: 40px 24px; }
+        .section-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
+        .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+
+        /* Status tabs */
+        .tabs { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 4px; margin-bottom: 24px; width: fit-content; }
+        .tab { padding: 6px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-muted); border: none; background: none; transition: all 0.15s; }
+        .tab.active { background: var(--surface-2); color: var(--text); border: 1px solid var(--border-light); }
+
+        /* Booking cards */
+        .bookings-list { display: flex; flex-direction: column; gap: 10px; }
+        .booking-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; }
+        .booking-card:hover { border-color: var(--border-light); }
+        .booking-salon { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .booking-details { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+        .booking-ref { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); }
+        .booking-meta { display: flex; align-items: center; gap: 12px; }
+        .status-badge {
+            display: inline-block; padding: 4px 10px; border-radius: 4px;
+            font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+        }
+        .status-confirmed { background: rgba(200,241,53,0.1); color: var(--accent); border: 1px solid rgba(200,241,53,0.2); }
+        .status-pending   { background: rgba(245,158,11,0.1); color: var(--warning); border: 1px solid rgba(245,158,11,0.2); }
+        .status-expired   { background: rgba(255,68,68,0.08); color: var(--danger);  border: 1px solid rgba(255,68,68,0.15); }
+        .status-completed { background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
+        .deposit-tag { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+        .deposit-tag span { color: var(--accent); }
+
+        .empty-state { text-align: center; padding: 80px 24px; color: var(--text-muted); }
+        .empty-state h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+        .empty-state p { font-size: 13px; margin-bottom: 24px; }
+
+        @media (max-width: 600px) { .booking-card { grid-template-columns: 1fr; } main { padding: 24px 16px; } }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased font-sans flex flex-col min-h-screen">
-    <nav class="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 cursor-pointer">
-                <div class="w-6 h-6 rounded-full bg-brand-900"></div>
-                <span class="font-semibold text-lg tracking-tight text-brand-900">StyleSync</span>
-            </a>
-            <div class="hidden sm:flex items-center gap-6 text-sm font-medium text-gray-500">
-                <a href="/salons" class="hover:text-brand-900 transition-colors">Salons</a>
-                <a href="/bookings" class="text-brand-900 font-semibold transition-colors">My Bookings</a>
-            </div>
-            <a href="/" class="text-sm font-semibold bg-brand-900 text-white px-4 py-2 rounded-full hover:bg-black transition-all">Book Now</a>
+<body>
+<nav>
+    <div class="nav-inner">
+        <a href="/" class="nav-brand"><div class="nav-dot"></div>StyleSync</a>
+        <div class="nav-links">
+            <a href="/salons">Salons</a>
+            <a href="/bookings" class="active">My Bookings</a>
         </div>
-    </nav>
-    <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 py-10">
-        <h1 class="text-3xl font-bold text-brand-900 mb-8">My Bookings</h1>
-        <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-bold text-brand-900">Luxe Locks Studio</h3>
-                    <p class="text-sm text-gray-500">Knotless Braids • May 26, 09:00 AM</p>
-                </div>
-                <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full border border-green-200">Confirmed (₵20 Deposit)</span>
+        <a href="/" class="btn-book">Book Now</a>
+    </div>
+</nav>
+<main>
+    <p class="section-label">// CLIENT PORTAL</p>
+    <h1>My Bookings</h1>
+    <p class="subtitle">Track your appointments and deposit status.</p>
+
+    <div class="tabs">
+        <button class="tab active" onclick="filterTab('all', this)">All</button>
+        <button class="tab" onclick="filterTab('confirmed', this)">Confirmed</button>
+        <button class="tab" onclick="filterTab('pending', this)">Pending</button>
+        <button class="tab" onclick="filterTab('completed', this)">Completed</button>
+    </div>
+
+    <div class="bookings-list" id="bookings-list">
+
+        <div class="booking-card" data-status="confirmed">
+            <div>
+                <div class="booking-salon">Luxe Locks Studio</div>
+                <div class="booking-details">KNOTLESS BRAIDS · MAY 26 · 09:00 AM · EAST LEGON</div>
+                <div class="booking-ref">REF: BKG-20260526090012345</div>
             </div>
-            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 opacity-70">
+            <div class="booking-meta">
                 <div>
-                    <h3 class="text-lg font-bold text-gray-700">Glamour Styles</h3>
-                    <p class="text-sm text-gray-500">Silk Press • May 14, 02:00 PM</p>
+                    <div class="status-badge status-confirmed" style="margin-bottom:8px">CONFIRMED</div>
+                    <div class="deposit-tag">Deposit: <span>₵20 paid</span></div>
                 </div>
-                <span class="px-3 py-1 bg-gray-200 text-gray-600 text-xs font-bold rounded-full">Completed</span>
             </div>
         </div>
-    </main>
+
+        <div class="booking-card" data-status="pending">
+            <div>
+                <div class="booking-salon">Glamour Styles Osu</div>
+                <div class="booking-details">SILK PRESS · MAY 28 · 11:30 AM · OSU</div>
+                <div class="booking-ref">REF: BKG-20260528113012346</div>
+            </div>
+            <div class="booking-meta">
+                <div>
+                    <div class="status-badge status-pending" style="margin-bottom:8px">PENDING PAYMENT</div>
+                    <div class="deposit-tag">Expires in <span>8 mins</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-card" data-status="completed">
+            <div>
+                <div class="booking-salon">Luxe Locks Studio</div>
+                <div class="booking-details">SILK PRESS · MAY 14 · 02:00 PM · EAST LEGON</div>
+                <div class="booking-ref">REF: BKG-20260514140034567</div>
+            </div>
+            <div class="booking-meta">
+                <div>
+                    <div class="status-badge status-completed" style="margin-bottom:8px">COMPLETED</div>
+                    <div class="deposit-tag">Deposit: <span>₵20 paid</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-card" data-status="expired">
+            <div>
+                <div class="booking-salon">The Braiding Bar</div>
+                <div class="booking-details">BOX BRAIDS · MAY 10 · 09:00 AM · CANTONMENTS</div>
+                <div class="booking-ref">REF: BKG-20260510090078901</div>
+            </div>
+            <div class="booking-meta">
+                <div>
+                    <div class="status-badge status-expired" style="margin-bottom:8px">EXPIRED</div>
+                    <div class="deposit-tag" style="color:var(--text-dim)">Slot released</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<script>
+function filterTab(status, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.booking-card').forEach(card => {
+        card.style.display = (status === 'all' || card.dataset.status === status) ? 'grid' : 'none';
+    });
+}
+</script>
 </body>
 </html>
