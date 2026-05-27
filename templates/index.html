@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking - Luxe Locks | Uber for Hair</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f6f6f6',
+                            100: '#e7e7e7',
+                            900: '#111111',
+                        },
+                        momo: '#facc15' // MTN Yellow accent
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fafafa;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        /* Custom scrollbar for timeslots */
+        .hide-scroll::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased font-sans flex flex-col min-h-screen selection:bg-brand-900 selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="w-full bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-brand-900"></div>
+                <span class="font-semibold text-lg tracking-tight text-brand-900">StyleSync</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-6 text-sm font-medium text-gray-500">
+                <a href="#" class="hover:text-brand-900 transition-colors">Salons</a>
+                <a href="#" class="hover:text-brand-900 transition-colors">My Bookings</a>
+            </div>
+            <button class="text-sm font-semibold bg-brand-900 text-white px-4 py-2 rounded-full hover:bg-black transition-all shadow-sm">
+                Sign In
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col md:flex-row max-w-5xl mx-auto w-full px-4 sm:px-6 py-10 gap-8">
+        
+        <!-- Left Column: Salon Info & Service Selection -->
+        <div class="w-full md:w-7/12 flex flex-col gap-8">
+            
+            <!-- Header Section -->
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-xs font-semibold text-gray-600 tracking-wide mb-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span> East Legon, Accra
+                </div>
+                <h1 class="text-4xl sm:text-5xl font-bold tracking-tight text-brand-900 leading-tight">
+                    Luxe Locks Studio
+                </h1>
+                <p class="text-gray-500 text-lg max-w-md leading-relaxed">
+                    Premium braiding and silk press services. Secure your spot instantly with MoMo.
+                </p>
+            </div>
+
+            <!-- Service Selection -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold text-brand-900">Select a Service</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Service Card 1 -->
+                    <label class="relative flex flex-col p-5 bg-white border-2 border-brand-900 rounded-2xl shadow-sm cursor-pointer hover:shadow-md transition-all">
+                        <input type="radio" name="service" value="1" class="absolute opacity-0" checked>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-semibold text-brand-900 text-lg">Knotless Braids</span>
+                            <span class="text-brand-900 font-bold bg-gray-50 px-2 py-1 rounded-md text-sm">₵350</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mt-auto">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            180 Mins
+                        </div>
+                    </label>
+
+                    <!-- Service Card 2 -->
+                    <label class="relative flex flex-col p-5 bg-white border border-gray-200 rounded-2xl shadow-sm cursor-pointer hover:border-gray-300 transition-all opacity-70 hover:opacity-100 grayscale hover:grayscale-0">
+                        <input type="radio" name="service" value="2" class="absolute opacity-0">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-semibold text-gray-700 text-lg">Silk Press</span>
+                            <span class="text-gray-700 font-bold bg-gray-50 px-2 py-1 rounded-md text-sm">₵200</span>
+                        </div>
+                        <div class="flex items-center text-sm text-gray-500 mt-auto">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            90 Mins
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Date & Time Selection -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold text-brand-900">Choose Date & Time</h3>
+                <div class="p-6 bg-white border border-gray-100 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                    <!-- Date Picker Mock -->
+                    <div class="flex gap-2 overflow-x-auto hide-scroll pb-4 border-b border-gray-100">
+                        <div class="flex flex-col items-center justify-center p-3 w-16 bg-brand-900 text-white rounded-xl shadow-md cursor-pointer">
+                            <span class="text-xs uppercase font-medium">May</span>
+                            <span class="text-xl font-bold">26</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3 w-16 bg-gray-50 text-gray-500 rounded-xl hover:bg-gray-100 cursor-pointer transition-colors">
+                            <span class="text-xs uppercase font-medium">May</span>
+                            <span class="text-xl font-bold">27</span>
+                        </div>
+                        <div class="flex flex-col items-center justify-center p-3 w-16 bg-gray-50 text-gray-500 rounded-xl hover:bg-gray-100 cursor-pointer transition-colors">
+                            <span class="text-xs uppercase font-medium">May</span>
+                            <span class="text-xl font-bold">28</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Time Slots Mock -->
+                    <div class="mt-6 grid grid-cols-3 gap-3" id="time-slots">
+                        <button class="py-2 border border-brand-900 bg-brand-50 text-brand-900 rounded-lg font-medium text-sm transition-colors">09:00 AM</button>
+                        <button class="py-2 border border-gray-200 text-gray-600 hover:border-gray-300 rounded-lg font-medium text-sm transition-colors">11:30 AM</button>
+                        <button class="py-2 border border-dashed border-gray-200 text-gray-300 rounded-lg font-medium text-sm cursor-not-allowed bg-gray-50" disabled>02:00 PM</button>
+                        <button class="py-2 border border-gray-200 text-gray-600 hover:border-gray-300 rounded-lg font-medium text-sm transition-colors">04:30 PM</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Checkout & Deposit Panel -->
+        <div class="w-full md:w-5/12">
+            <div class="sticky top-24 bg-white border border-gray-100 rounded-3xl p-6 shadow-[0_20px_50px_rgb(0,0,0,0.06)] flex flex-col gap-6 relative overflow-hidden">
+                <!-- Decorative background blob -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-100 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+
+                <div class="z-10">
+                    <h3 class="text-2xl font-bold text-brand-900 mb-1">Booking Summary</h3>
+                    <p class="text-sm text-gray-500">Review your appointment details.</p>
+                </div>
+
+                <div class="space-y-4 z-10">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-500">Service</span>
+                        <span class="font-semibold text-brand-900">Knotless Braids</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-500">Date & Time</span>
+                        <span class="font-semibold text-brand-900">May 26, 09:00 AM</span>
+                    </div>
+                    <div class="h-px w-full bg-gray-100"></div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-gray-500">Total Cost</span>
+                        <span class="font-semibold text-gray-700">₵350.00</span>
+                    </div>
+                    
+                    <!-- MoMo Deposit Lock Box -->
+                    <div class="bg-brand-50 border border-brand-100 rounded-xl p-4 mt-2">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-bold text-brand-900 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-momo" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                                Deposit to Lock Slot
+                            </span>
+                            <span class="font-bold text-brand-900 text-lg">₵20.00</span>
+                        </div>
+                        <p class="text-xs text-gray-500 leading-snug">
+                            To eliminate no-shows, a non-refundable ₵20 deposit is required via Mobile Money. The remaining ₵330 is paid at the salon.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Client Details Form -->
+                <form id="booking-form" class="space-y-3 mt-2 z-10">
+                    <div>
+                        <input type="text" id="name" required placeholder="Full Name" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition-all placeholder-gray-400">
+                    </div>
+                    <div>
+                        <input type="tel" id="phone" required placeholder="MoMo Phone Number" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition-all placeholder-gray-400">
+                    </div>
+                    <div>
+                        <input type="email" id="email" required placeholder="Email Address" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-900 focus:border-transparent transition-all placeholder-gray-400">
+                    </div>
+                    
+                    <button type="submit" id="pay-btn" class="w-full mt-4 bg-brand-900 text-white font-semibold py-4 px-4 rounded-xl shadow-lg hover:bg-black hover:shadow-xl transition-all flex items-center justify-center gap-2 group">
+                        Pay ₵20 via MoMo
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                    <div class="text-center mt-3">
+                        <span class="text-[10px] text-gray-400 flex items-center justify-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            Secured by Paystack
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('pay-btn');
+            btn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+            `;
+            btn.disabled = true;
+
+            const payload = {
+                client_name: document.getElementById('name').value,
+                client_phone: document.getElementById('phone').value,
+                client_email: document.getElementById('email').value,
+                service_id: "1",
+                slot_id: "s1",
+                amount_ghs: 20.00
+            };
+
+            fetch('/api/bookings/init', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.status && data.data && data.data.authorization_url) {
+                    // Redirect to Paystack Checkout for demo
+                    window.location.href = data.data.authorization_url;
+                } else {
+                    alert('Initialization succeeded. In a real environment, the Paystack popup would appear now.');
+                    btn.innerHTML = 'Pay ₵20 via MoMo';
+                    btn.disabled = false;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Error initializing payment');
+                btn.innerHTML = 'Pay ₵20 via MoMo';
+                btn.disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>
