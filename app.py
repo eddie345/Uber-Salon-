@@ -5,9 +5,6 @@ import json
 import logging
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, abort
-import requests
-from dotenv import load_dotenv
-
 # Database imports temporarily commented out for local preview
 # import psycopg2
 # from psycopg2.extras import RealDictCursor
